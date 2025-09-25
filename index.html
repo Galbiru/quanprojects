@@ -6,146 +6,125 @@
   <title>Quantitative Project</title>
   <style>
     :root{
-      --hitam:#000;
-      --putih:#fff;
-      --biru-tipis:#5fa8d3;
-      --biru-cerah:#4cc9f0;
+      --hitam:#000; --putih:#fff;
+      --biru-tipis:#5fa8d3; --biru-cerah:#4cc9f0;
       --merah:#e63946;
-      --border:2px;
-      --radius:14px;
+      --border:2px; --radius:14px;
       --shadow:0 10px 30px rgba(95,168,211,.25);
       --field-h:46px;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
-    body{
-      font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background:#000;color:var(--putih);display:flex;min-height:100vh;
-    }
+    body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#000;color:#fff;display:flex;min-height:100vh}
     .app{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;padding:28px 18px}
 
-    /* FRAME & HEADINGS */
+    /* Frames/headers */
     .frame{width:100%;max-width:1100px;border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);padding:28px;background:rgba(255,255,255,0.02);box-shadow:var(--shadow)}
     .title{font-weight:800;letter-spacing:.5px;text-align:center;line-height:1.05}
     .subtitle{opacity:.9;text-align:center;margin-top:14px}
+    .section{width:100%;max-width:900px;display:flex;flex-direction:column;gap:18px}
+    .label{font-size:18px;letter-spacing:.6px;opacity:.9;text-align:center;margin-top:6px}
 
-    /* HOME */
+    /* Home */
     .home-header{padding:40px 32px}
     .home-title{font-size:clamp(36px,7vw,72px)}
     .home-subtitle{font-size:clamp(18px,3vw,28px);font-weight:500}
     .home-actions{width:100%;max-width:1100px;display:grid;gap:34px;grid-template-columns:repeat(2,minmax(260px,1fr))}
     @media (max-width:740px){.home-actions{grid-template-columns:1fr}}
     .big-btn{
-      display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--putih);
+      display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;
       border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);
       padding:38px 18px;font-weight:700;font-size:clamp(22px,4.4vw,42px);
       background:rgba(255,255,255,0.02);transition:.2s;text-align:center;
     }
     .big-btn:hover,.big-btn:focus-visible{transform:translateY(-2px);background:rgba(76,201,240,0.08);box-shadow:0 12px 30px rgba(76,201,240,.25);border-color:var(--biru-cerah);outline:none}
 
-    /* TOOLBAR */
-    .toolbar{width:100%;max-width:1100px;display:flex;align-items:center;gap:12px}
+    /* Toolbar / buttons */
+    .toolbar{width:100%;max-width:1100px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
     .btn{
-      border:var(--border) solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:var(--putih);
+      border:var(--border) solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;
       padding:10px 14px;cursor:pointer;font-weight:700;transition:.2s
     }
     .btn:hover{border-color:var(--biru-cerah)}
+    .btn-primary{background:var(--biru-tipis);border:none;color:#001014}
+    .btn-primary:hover{filter:brightness(1.08)}
 
-    /* SECTIONS */
-    .section{width:100%;max-width:900px;display:flex;flex-direction:column;gap:18px}
-    .label{font-size:18px;letter-spacing:.6px;opacity:.9;text-align:center;margin-top:6px}
-
-    /* FORM (rapihin field) */
+    /* Form */
     .form{display:grid;gap:16px;margin-top:6px}
     .row{display:grid;gap:12px}
     .form input{
-      background:transparent;color:var(--putih);
-      border:none;border-bottom:2px dotted var(--putih);
-      padding:0 10px;height:var(--field-h);
-      font-size:18px;text-align:center
+      background:transparent;color:#fff;border:none;border-bottom:2px dotted #fff;
+      padding:0 10px;height:var(--field-h);font-size:18px;text-align:center
     }
     .form input:focus{outline:none;border-bottom:2px solid var(--biru-cerah)}
-    .primary{
-      margin-top:6px;padding:12px 20px;border:none;border-radius:10px;background:var(--biru-tipis);
-      color:#001014;font-weight:800;cursor:pointer;transition:filter .2s ease, transform .05s ease
-    }
-    .primary:hover{filter:brightness(1.08)} .primary:active{transform:translateY(1px)}
 
-    /* INTERVIEWER WRAP + ROW (RAPIH) */
+    /* Interviewers (tidy) */
     #interviewers{display:flex;flex-direction:column;gap:10px}
-    .iv-row{
-      display:grid;gap:12px;align-items:center;
-      grid-template-columns:1fr 1fr 44px; /* Name | Link | Remove */
-    }
-    .iv-row .iv-name, .iv-row .iv-link{ text-align:left; padding:0 12px; }
-    .iv-row .remove{
-      width:44px;height:var(--field-h);display:flex;align-items:center;justify-content:center;
-      border:1px solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;cursor:pointer
-    }
+    .iv-row{display:grid;gap:12px;align-items:center;grid-template-columns:1fr 1fr 44px}
+    .iv-row .iv-name,.iv-row .iv-link{text-align:left;padding:0 12px}
+    .iv-row .remove{width:44px;height:var(--field-h);display:flex;align-items:center;justify-content:center;border:1px solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;cursor:pointer}
     .iv-row .remove:hover{border-color:var(--biru-cerah)}
-    .add-mini{
-      justify-self:center;border:1px dashed rgba(95,168,211,.6);border-radius:10px;background:rgba(255,255,255,.03);
-      color:#cde8f7;padding:8px 12px;cursor:pointer
-    }
+    .add-mini{justify-self:center;border:1px dashed rgba(95,168,211,.6);border-radius:10px;background:rgba(255,255,255,.03);color:#cde8f7;padding:8px 12px;cursor:pointer}
     .add-mini:hover{border-color:var(--biru-cerah);color:#fff}
-    @media (max-width:760px){
-      .iv-row{ grid-template-columns:1fr; }
-      .iv-row .remove{ justify-self:end; }
-    }
+    @media (max-width:760px){.iv-row{grid-template-columns:1fr}.iv-row .remove{justify-self:end}}
 
-    /* LINKS LIST (cards) */
+    /* Cards / link list */
     .links{display:grid;gap:18px;margin-top:10px;grid-template-columns:1fr 1fr}
     @media (max-width:900px){.links{grid-template-columns:1fr}}
-    .card-btn, .card-div{
-      width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(95,168,211,.6);border-radius:12px;
-      padding:16px 18px;color:#fff;text-decoration:none;transition:.15s ease;display:block
+    .card, .card-link{
+      position:relative;display:block;width:100%;text-align:left;background:rgba(255,255,255,.03);
+      border:1px solid rgba(95,168,211,.6);border-radius:12px;padding:16px 18px;color:#fff;text-decoration:none;transition:.15s ease
     }
-    .card-btn:hover, .card-div:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah)}
+    .card:hover,.card-link:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah)}
     .card-title{font-weight:800;font-size:18px;margin-bottom:6px}
     .card-meta{font-size:14px;opacity:.9;margin-bottom:6px}
     .tag{display:inline-block;background:rgba(95,168,211,.15);border:1px solid rgba(95,168,211,.5);color:#def5ff;border-radius:8px;padding:2px 8px;margin:2px 4px 0 0;font-size:12px}
     .tag a{color:#def5ff}
 
-    /* FLOAT DELETE */
-    .delete-button{position:fixed;right:20px;bottom:20px;z-index:10;background:var(--merah);color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-    .delete-button:hover{filter:brightness(1.05)}
+    /* Selection mode checkbox */
+    .select-box{
+      position:absolute;left:10px;top:10px;transform:scale(1.15);
+      accent-color:#79c9ff; /* modern browsers */
+    }
+    .card.pad-left{padding-left:48px} .card-link.pad-left{padding-left:48px}
 
-    /* GATE */
-    .gate{width:100%;max-width:520px;margin-top:8px;display:flex;flex-direction:column;align-items:center;gap:18px}
-    .gate input{width:100%;background:transparent;color:#fff;border:none;border-bottom:2px dotted #fff;padding:12px 10px;font-size:18px;text-align:center}
-    .muted{opacity:.7;font-size:14px;text-align:center}
+    /* Floating delete selected */
+    .delete-fab{
+      position:fixed;right:20px;bottom:20px;z-index:10;background:var(--merah);color:#fff;border:none;border-radius:12px;
+      padding:12px 16px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none
+    }
+    .delete-fab.show{display:block}
   </style>
 </head>
 <body>
   <main id="app" class="app"></main>
 
   <script>
-    /* ============== ROUTER ============== */
+    /* ============== Router ============== */
     const routes = { home: renderHome, input: routeInput, list: renderList };
-    function navigate(hash){
-      const route = (hash || location.hash || '#/').replace('#/','') || 'home';
-      (routes[route] || routes.home)();
-    }
-    window.addEventListener('hashchange', () => navigate());
-    document.addEventListener('DOMContentLoaded', () => navigate());
+    function navigate(hash){ const route=(hash||location.hash||'#/').replace('#/','')||'home'; (routes[route]||routes.home)(); }
+    window.addEventListener('hashchange',()=>navigate()); document.addEventListener('DOMContentLoaded',()=>navigate());
 
-    /* ============== AUTH ============== */
+    /* ============== Auth ============== */
     const AUTH_KEY='acorn_auth', PASSWORD='acornquan';
-    const isAuthed = () => sessionStorage.getItem(AUTH_KEY)==='1';
-    const setAuthed = () => sessionStorage.setItem(AUTH_KEY,'1');
-    const clearAuth = () => sessionStorage.removeItem(AUTH_KEY);
+    const isAuthed=()=>sessionStorage.getItem(AUTH_KEY)==='1';
+    const setAuthed=()=>sessionStorage.setItem(AUTH_KEY,'1');
+    const clearAuth=()=>sessionStorage.removeItem(AUTH_KEY);
 
-    /* ============== STORAGE ============== */
-    const LS_KEY='linksV2';
-    const readLinks = () => { try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch{return[]} };
-    const writeLinks = arr => localStorage.setItem(LS_KEY, JSON.stringify(arr));
-    const addProject = obj => { const arr=readLinks(); arr.push(obj); writeLinks(arr); }
-    const removeAllProjects = () => localStorage.removeItem(LS_KEY);
+    /* ============== Storage ============== */
+    const LS_KEY='linksV2'; // {id,name,url,interviewers:[{name,link}]}
+    const readAll=()=>{ try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch{return[]} };
+    const writeAll=arr=>localStorage.setItem(LS_KEY, JSON.stringify(arr));
+    const upsert=p=>{ const arr=readAll(); arr.push(p); writeAll(arr); };
+    const removeByIds=(ids)=>{ const set=new Set(ids); writeAll(readAll().filter(x=>!set.has(x.id))); };
+    const migrateIds=()=>{ const arr=readAll(); let changed=false; arr.forEach(it=>{ if(!it.id){ it.id=genId(); changed=true; } }); if(changed) writeAll(arr); };
 
-    /* ============== HOME ============== */
+    const genId=()=> 'p_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);
+
+    /* ============== Home ============== */
     function renderHome(){
       const app=document.getElementById('app');
-      app.innerHTML = `
+      app.innerHTML=`
         <section class="frame home-header" aria-labelledby="home-title">
           <h1 id="home-title" class="title home-title">Quantitative Project</h1>
           <p class="subtitle home-subtitle">Acorn Consultant</p>
@@ -157,145 +136,143 @@
       `;
     }
 
-    /* ============== INPUT (gate) ============== */
-    function routeInput(){ isAuthed()? renderInputPage() : renderInputGate(); }
+    /* ============== Input (gate) ============== */
+    function routeInput(){ isAuthed()? renderInputPage() : renderGate(); }
 
-    function renderInputGate(){
+    function renderGate(){
       const app=document.getElementById('app');
-      app.innerHTML = `
+      app.innerHTML=`
         <div class="toolbar">
           <button class="btn" onclick="location.hash='#/';">← Back</button>
         </div>
         <section class="frame">
           <h2 class="title" style="font-size:28px;">Password Required</h2>
           <p class="subtitle">Masukkan password untuk mengakses <b>Input Projects</b>.</p>
-          <div class="gate">
-            <input id="pwd" type="password" placeholder="Enter password" autocomplete="current-password"/>
-            <button id="pwdBtn" class="primary">Unlock</button>
-            <p class="muted">Password disimpan untuk sesi ini (tab ini saja).</p>
+          <div style="max-width:520px;margin:16px auto 0;display:flex;gap:12px">
+            <input id="pwd" type="password" placeholder="Enter password" style="flex:1;background:transparent;color:#fff;border:none;border-bottom:2px dotted #fff;height:46px;text-align:center;font-size:18px"/>
+            <button id="pwdBtn" class="btn btn-primary">Unlock</button>
           </div>
+          <p class="subtitle" style="font-size:14px;opacity:.7">Password disimpan untuk sesi ini (tab ini saja).</p>
         </section>
       `;
-      const pwd = document.getElementById('pwd');
-      document.getElementById('pwdBtn').addEventListener('click', tryUnlock);
-      pwd.addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
-      pwd.focus();
-      function tryUnlock(){
-        if(pwd.value===PASSWORD){ setAuthed(); renderInputPage(); }
-        else{ alert('Incorrect password.'); pwd.value=''; pwd.focus(); }
-      }
+      const pwd=document.getElementById('pwd');
+      document.getElementById('pwdBtn').addEventListener('click',unlock);
+      pwd.addEventListener('keydown',e=>{if(e.key==='Enter')unlock();}); pwd.focus();
+      function unlock(){ if(pwd.value===PASSWORD){ setAuthed(); renderInputPage(); } else { alert('Incorrect password.'); pwd.value=''; pwd.focus(); } }
     }
 
-    /* ============== INPUT PAGE ============== */
+    /* ============== Input Page ============== */
+    let selectionMode=false;           // on/off
+    const selectedIds=new Set();       // ids selected
+
     function renderInputPage(){
+      migrateIds(); // ensure old data has ids
+
       const app=document.getElementById('app');
-      app.innerHTML = `
+      app.innerHTML=`
         <div class="toolbar">
           <button class="btn" onclick="location.hash='#/';">← Back</button>
           <button class="btn" onclick="clearAuth();location.hash='#/';">Log out</button>
+          <button id="toggleSel" class="btn" style="margin-left:auto">Selection Mode: OFF</button>
         </div>
 
         <section class="frame section">
           <h2 class="title" style="font-size:28px;">Input Projects</h2>
           <p class="label">PUT THE LINK BELOW</p>
 
-          <div class="form" id="form">
-            <!-- 1. Project Name (required) -->
-            <div class="row">
-              <input id="projectName" type="text" placeholder="Project Name (required)" autocomplete="off"/>
-            </div>
+          <div class="form">
+            <div class="row"><input id="projectName" type="text" placeholder="Project Name (required)"/></div>
+            <div class="row"><input id="projectURL" type="url" placeholder="URL (optional, https://...)"/></div>
 
-            <!-- A. URL (optional) -->
-            <div class="row">
-              <input id="projectURL" type="url" placeholder="URL (optional, https://...)" autocomplete="off"/>
-            </div>
-
-            <!-- B. Interviewer (optional) -->
             <div class="row">
               <div id="interviewers"></div>
               <button type="button" id="addInterviewer" class="add-mini">+ Add More Name + Link</button>
             </div>
 
-            <button id="saveBtn" class="primary">Save Link</button>
+            <button id="saveBtn" class="btn btn-primary">Save Link</button>
           </div>
 
-          <div class="links" id="inputList"></div>
+          <div class="links" id="listInput"></div>
         </section>
 
-        <button class="delete-button" id="deleteAll">Delete All (PIN)</button>
+        <button id="deleteSelected" class="delete-fab">Delete Selected (PIN)</button>
       `;
 
-      const interviewersEl = document.getElementById('interviewers');
-      document.getElementById('addInterviewer').addEventListener('click', () => addInterviewerRow());
-      addInterviewerRow(); // initial row
-
-      document.getElementById('saveBtn').addEventListener('click', saveProject);
-      document.getElementById('deleteAll').addEventListener('click', handleDeleteAll);
-      ['projectName','projectURL'].forEach(id=>{
-        document.getElementById(id).addEventListener('keydown', e=>{
-          if(e.key==='Enter'){ e.preventDefault(); saveProject(); }
-        });
-      });
-
-      renderProjects(document.getElementById('inputList'));
-
-      function addInterviewerRow(name='', link=''){
-        const row = document.createElement('div');
-        row.className='iv-row';
-        row.innerHTML = `
-          <input type="text" class="iv-name" placeholder="Interviewer Name (optional)" value="${escapeHtml(name)}"/>
-          <input type="url"  class="iv-link" placeholder="Interviewer Link (optional, https://...)" value="${escapeHtml(link)}"/>
+      // interviewer rows
+      const interviewers=document.getElementById('interviewers');
+      const addRow=(name='',link='')=>{
+        const div=document.createElement('div');
+        div.className='iv-row';
+        div.innerHTML=`
+          <input class="iv-name" type="text" placeholder="Interviewer Name (optional)" value="${esc(name)}"/>
+          <input class="iv-link" type="url" placeholder="Interviewer Link (optional, https://...)" value="${esc(link)}"/>
           <button type="button" class="remove" title="Remove interviewer">✕</button>
         `;
-        row.querySelector('.remove').addEventListener('click', ()=> row.remove());
-        interviewersEl.appendChild(row);
-      }
+        div.querySelector('.remove').addEventListener('click',()=>div.remove());
+        interviewers.appendChild(div);
+      };
+      document.getElementById('addInterviewer').addEventListener('click',()=>addRow());
+      addRow(); // initial
+
+      // actions
+      document.getElementById('saveBtn').addEventListener('click',saveProject);
+      ['projectName','projectURL'].forEach(id=>{
+        document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); saveProject(); }});
+      });
+      document.getElementById('toggleSel').addEventListener('click',toggleSelectionMode);
+      document.getElementById('deleteSelected').addEventListener('click',deleteSelected);
+
+      // first render
+      renderProjects(document.getElementById('listInput'), { selectable:true });
 
       function saveProject(){
-        const name = (document.getElementById('projectName').value||'').trim();
-        let url = (document.getElementById('projectURL').value||'').trim();
-
+        const name=(document.getElementById('projectName').value||'').trim();
+        let url=(document.getElementById('projectURL').value||'').trim();
         if(!name){ alert('Project Name wajib diisi.'); return; }
-
-        if(url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+        if(url && !/^https?:\/\//i.test(url)) url='https://'+url;
         if(url){ try{ new URL(url); }catch{ alert('URL project tidak valid.'); return; } }
-
-        const pairs = [];
+        const iv=[];
         document.querySelectorAll('#interviewers .iv-row').forEach(r=>{
-          const ivName = (r.querySelector('.iv-name').value||'').trim();
-          let ivLink = (r.querySelector('.iv-link').value||'').trim();
-          if(ivName || ivLink){
-            if(ivLink && !/^https?:\/\//i.test(ivLink)) ivLink = 'https://' + ivLink;
-            if(ivLink){ try{ new URL(ivLink); }catch{ alert('Salah satu Interviewer Link tidak valid.'); return; } }
-            pairs.push({ name: ivName, link: ivLink });
+          const n=(r.querySelector('.iv-name').value||'').trim();
+          let l=(r.querySelector('.iv-link').value||'').trim();
+          if(n||l){
+            if(l && !/^https?:\/\//i.test(l)) l='https://'+l;
+            if(l){ try{ new URL(l); }catch{ alert('Salah satu Interviewer Link tidak valid.'); return; } }
+            iv.push({name:n,link:l});
           }
         });
-
-        addProject({ name, url, interviewers: pairs });
-        // reset
+        upsert({ id:genId(), name, url, interviewers:iv });
+        // reset form
         document.getElementById('projectName').value='';
         document.getElementById('projectURL').value='';
-        interviewersEl.innerHTML=''; addInterviewerRow();
-
-        renderProjects(document.getElementById('inputList'));
+        interviewers.innerHTML=''; addRow();
+        renderProjects(document.getElementById('listInput'), { selectable:true });
       }
 
-      function handleDeleteAll(){
-        const pin = prompt("Enter PIN to delete all links:");
-        if(pin === "13579"){
-          removeAllProjects();
-          renderProjects(document.getElementById('inputList'));
-          alert("All links deleted.");
-        }else{
-          alert("Incorrect PIN.");
-        }
+      function toggleSelectionMode(){
+        selectionMode=!selectionMode;
+        selectedIds.clear();
+        document.getElementById('toggleSel').textContent = `Selection Mode: ${selectionMode?'ON':'OFF'}`;
+        document.getElementById('deleteSelected').classList.toggle('show', selectionMode);
+        renderProjects(document.getElementById('listInput'), { selectable:true });
+      }
+
+      function deleteSelected(){
+        if(!selectedIds.size){ alert('Tidak ada project yang dipilih.'); return; }
+        const pin=prompt('Enter PIN to delete selected projects:');
+        if(pin!=='13579'){ alert('Incorrect PIN.'); return; }
+        removeByIds([...selectedIds]);
+        selectedIds.clear();
+        renderProjects(document.getElementById('listInput'), { selectable:true });
+        alert('Selected projects deleted.');
       }
     }
 
-    /* ============== LIST PAGE ============== */
+    /* ============== List Page (read-only) ============== */
     function renderList(){
+      migrateIds();
       const app=document.getElementById('app');
-      app.innerHTML = `
+      app.innerHTML=`
         <div class="toolbar">
           <button class="btn" onclick="location.hash='#/';">← Back</button>
         </div>
@@ -304,63 +281,59 @@
           <div class="links" id="listOnly"></div>
         </section>
       `;
-      renderProjects(document.getElementById('listOnly'));
+      renderProjects(document.getElementById('listOnly'), { selectable:false });
     }
 
-    /* ============== RENDER CARDS (shared) ============== */
-    function renderProjects(container){
-      const data = readLinks();
+    /* ============== Render Cards (shared) ============== */
+    function renderProjects(container, {selectable}){
+      const data=readAll();
       container.innerHTML='';
 
       if(!data.length){
-        const p=document.createElement('p');
-        p.className='label'; p.style.marginTop='8px';
+        const p=document.createElement('p'); p.className='label'; p.style.marginTop='8px';
         p.textContent='Belum ada project. Tambahkan lewat "Input Projects".';
-        container.parentElement.appendChild(p);
-        return;
+        container.parentElement.appendChild(p); return;
       }
 
-      const grid=document.createElement('div');
-      grid.className='links';
+      const grid=document.createElement('div'); grid.className='links';
 
       data.forEach(item=>{
-        const title = `<div class="card-title">${escapeHtml(item.name)}</div>`;
-        const meta  = item.url ? `<div class="card-meta">URL: ${escapeHtml(item.url)}</div>` : `<div class="card-meta">No main URL</div>`;
-        const tags = (item.interviewers||[]).map(iv=>{
-          const safeName = escapeHtml(iv.name || 'Interviewer');
-          const safeLink = escapeHtml(iv.link || '');
-          return iv.link
-            ? `<span class="tag"><a href="${safeLink}" target="_blank" rel="noopener noreferrer">${safeName}</a></span>`
-            : `<span class="tag">${safeName}</span>`;
+        const title=`<div class="card-title">${esc(item.name)}</div>`;
+        const meta=item.url?`<div class="card-meta">URL: ${esc(item.url)}</div>`:`<div class="card-meta">No main URL</div>`;
+        const tags=(item.interviewers||[]).map(iv=>{
+          const nm=esc(iv.name||'Interviewer'); const lk=esc(iv.link||'');
+          return iv.link?`<span class="tag"><a href="${lk}" target="_blank" rel="noopener">${nm}</a></span>`:`<span class="tag">${nm}</span>`;
         }).join('');
 
-        let el;
-        if(item.url){
-          el=document.createElement('a');
-          el.className='card-btn';
-          el.href=item.url; el.target='_blank'; el.rel='noopener noreferrer';
-          el.innerHTML = `${title}${meta}${tags}`;
-        }else{
-          el=document.createElement('div');
-          el.className='card-div';
-          el.innerHTML = `${title}${meta}${tags}`;
+        const elm = item.url ? document.createElement('a') : document.createElement('div');
+        if(item.url){ elm.href=item.url; elm.target='_blank'; elm.rel='noopener noreferrer'; elm.className='card-link'; }
+        else{ elm.className='card'; }
+        elm.innerHTML=`${title}${meta}${tags}`;
+
+        if(selectable){
+          elm.classList.add('pad-left');
+          const cb=document.createElement('input');
+          cb.type='checkbox'; cb.className='select-box';
+          cb.checked = selectedIds.has(item.id);
+          cb.addEventListener('change', e=>{
+            if(e.target.checked) selectedIds.add(item.id); else selectedIds.delete(item.id);
+          });
+          elm.appendChild(cb);
+          // prevent card link navigation when clicking checkbox
+          if(item.url){
+            cb.addEventListener('click', ev=>ev.stopPropagation());
+            cb.addEventListener('mousedown', ev=>ev.stopPropagation());
+          }
         }
-        grid.appendChild(el);
+
+        grid.appendChild(elm);
       });
 
-      container.replaceWith(grid);
-      grid.id = container.id;
+      container.replaceWith(grid); grid.id=container.id;
     }
 
-    /* ============== HELPERS ============== */
-    function escapeHtml(str=''){
-      return String(str)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#39;");
-    }
+    /* ============== Helpers ============== */
+    const esc=(s='')=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
   </script>
 </body>
 </html>
