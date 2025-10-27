@@ -65,6 +65,15 @@
     #cities, #interviewers{display:flex;flex-direction:column;gap:10px}
 
     /* Style for City input list */
+    .city-wrapper{
+        border: 1px dashed rgba(76, 201, 240, .2); 
+        padding: 12px; 
+        border-radius: 10px; 
+        margin-bottom: 16px;
+    }
+    .city-header{display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}
+    .city-header input{flex: 1; text-align: left !important; height: 40px !important; border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;}
+    
     .city-row{display: flex; gap: 8px; align-items: center;}
     .city-row input{flex: 1; text-align: left !important;}
     .city-row .remove-city{
@@ -92,10 +101,10 @@
 
     /* Interviewers */
     .iv-section{ /* Container for interviewer and all its links */
-        border: 1px dashed rgba(76, 201, 240, .2); 
+        border: 1px dashed rgba(95,168,211,.6); /* Dotted border for sub-section */
         padding: 12px; 
         border-radius: 10px; 
-        margin-bottom: 16px;
+        margin-top: 10px;
     }
     .links-container > div { /* Wrapper for one link input and its remove button */
         display: flex; 
@@ -147,22 +156,46 @@
     /* Cards / link list */
     .links{display:grid;gap:18px;margin-top:10px;grid-template-columns:1fr 1fr}
     @media (max-width:900px){.links{grid-template-columns:1fr}}
-    .card, .card-link{
+    .card, .card-link, .card-clickable{ /* Added .card-clickable */
       position:relative;display:block;width:100%;text-align:left;background:rgba(255,255,255,.03);
       border:1px solid rgba(95,168,211,.6);border-radius:12px;padding:16px 18px;color:#fff;text-decoration:none;transition:.15s ease
     }
-    .card:hover,.card-link:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah)}
+    .card:hover,.card-link:hover, .card-clickable:hover{ /* Added .card-clickable:hover */
+      transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah);
+      cursor: pointer; /* Ensure the cursor shows it's clickable */
+    }
     .card-title{font-weight:800;font-size:18px;margin-bottom:6px}
     .card-meta{font-size:14px;opacity:.9;margin-bottom:6px}
     .tag{display:inline-block;background:rgba(95,168,211,.15);border:1px solid rgba(95,168,211,.5);color:#def5ff;border-radius:8px;padding:2px 8px;margin:2px 4px 0 0;font-size:12px}
     .tag a{color:#def5ff}
+    
+    /* NEW: Detail page styling for buttons */
+    .detail-container{display: flex; flex-direction: column; gap: 14px;}
+    .detail-interviewer{
+        background: rgba(95,168,211,.1);
+        border: 1px solid rgba(95,168,211,.7);
+        border-radius: 10px;
+        padding: 14px;
+    }
+    .detail-interviewer strong{font-size: 16px; display: block; margin-bottom: 8px;}
+    .link-btn-container{display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;}
+    .link-btn{
+        padding: 8px 12px;
+        background: var(--biru-tipis);
+        color: #001014;
+        border-radius: 8px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color .15s;
+    }
+    .link-btn:hover{background: var(--biru-cerah);}
 
     /* Selection mode checkbox */
     .select-box{
       position:absolute;left:10px;top:10px;transform:scale(1.15);
       accent-color:#79c9ff; /* modern browsers */
     }
-    .card.pad-left{padding-left:48px} .card-link.pad-left{padding-left:48px}
+    .card.pad-left{padding-left:48px} .card-link.pad-left{padding-left:48px} .card-clickable.pad-left{padding-left:48px}
 
     /* Floating delete selected */
     .delete-fab{
@@ -177,9 +210,24 @@
 
   <script>
     /* ============== Router ============== */
-    const routes = { home: renderHome, input: routeInput, list: renderList };
-    function navigate(hash){ const route=(hash||location.hash||'#/').replace('#/','')||'home'; (routes[route]||routes.home)(); }
-    window.addEventListener('hashchange',()=>navigate()); document.addEventListener('DOMContentLoaded',()=>navigate());
+    // Added 'detail' route
+    const routes = { home: renderHome, input: routeInput, list: renderList, detail: renderDetail };
+    function navigate(hash){ 
+        const routeHash = hash || location.hash || '#/';
+        // Regex to match the detail route format: #/detail/project_id
+        const routeMatch = routeHash.match(/^#\/(detail)\/([a-z0-9_]+)$/);
+        
+        if (routeMatch) {
+            // Found a detail route
+            routes[routeMatch[1]](routeMatch[2]);
+        } else {
+            // Standard route
+            const route = routeHash.replace('#/','') || 'home'; 
+            (routes[route]||routes.home)(); 
+        }
+    }
+    window.addEventListener('hashchange',()=>navigate()); 
+    document.addEventListener('DOMContentLoaded',()=>navigate());
 
     /* ============== Auth ============== */
     const AUTH_KEY='acorn_auth', PASSWORD='acornquan';
@@ -188,11 +236,12 @@
     const clearAuth=()=>sessionStorage.removeItem(AUTH_KEY);
 
     /* ============== Storage ============== */
-    // UPDATED LS_KEY to V5 to include the 'cities' array field
-    const LS_KEY='linksV5';
+    // UPDATED LS_KEY to V7 to avoid conflict with detail routing and complex data structure
+    const LS_KEY='linksV7'; 
     const readAll=()=>{ try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch{return[]} };
     const writeAll=arr=>localStorage.setItem(LS_KEY, JSON.stringify(arr));
     const upsert=p=>{ const arr=readAll(); arr.push(p); writeAll(arr); };
+    const findById=(id)=>readAll().find(item => item.id === id);
     const removeByIds=(ids)=>{ const set=new Set(ids); writeAll(readAll().filter(x=>!set.has(x.id))); };
     const migrateIds=()=>{ const arr=readAll(); let changed=false; arr.forEach(it=>{ if(!it.id){ it.id=genId(); changed=true; } }); if(changed) writeAll(arr); };
 
@@ -243,7 +292,7 @@
     const selectedIds=new Set();        // ids selected
 
     function renderInputPage(){
-      migrateIds(); // ensure old data has ids
+      migrateIds(); 
 
       const app=document.getElementById('app');
       app.innerHTML=`
@@ -267,11 +316,6 @@
                 <button type="button" id="addCity" class="add-city-mini">+ Add City</button>
             </div>
 
-            <div class="row hide-on-url">
-              <div id="interviewers"></div>
-              <button type="button" id="addInterviewer" class="add-mini">+ Add New Interviewer</button>
-            </div>
-
             <button id="saveBtn" class="btn btn-primary">Save Link</button>
           </div>
 
@@ -285,82 +329,11 @@
       const projectURLInput = document.getElementById('projectURL');
       const saveBtn = document.getElementById('saveBtn');
       const citiesContainer = document.getElementById('cities');
-      const interviewersContainer = document.getElementById('interviewers');
       const addCityBtn = document.getElementById('addCity');
 
-      // --- CITY INPUT LOGIC ---
 
-      // Function to add a single city input field
-      const addCityInput = (container, city = '') => {
-        const div = document.createElement('div');
-        div.className = 'city-row';
-        div.innerHTML = `
-          <input class="city-name" type="text" placeholder="City Name" value="${esc(city)}" style="text-align: left;"/>
-          <button type="button" class="remove-city remove" title="Remove city">–</button>
-        `;
-        const cityInput = div.querySelector('.city-name');
+      // --- HELPER FUNCTIONS FOR LINKS AND INTERVIEWERS (NESTED) ---
 
-        div.querySelector('.remove-city').addEventListener('click', () => {
-            // Only remove if there's more than one city input, or if it's the only one and it's empty
-            if (container.querySelectorAll('.city-row').length > 1 || !cityInput.value.trim()) {
-                div.remove();
-                updateInputMode(); // Update button/visibility after removal
-            } else {
-                alert('Tidak bisa menghapus satu-satunya kolom kota yang terisi.');
-            }
-        });
-
-        // Add event listener to update mode on input change
-        cityInput.addEventListener('input', updateInputMode);
-        
-        container.appendChild(div);
-        return div;
-      };
-
-      // Add City Button Handler
-      addCityBtn.addEventListener('click', () => {
-          addCityInput(citiesContainer);
-      });
-      addCityInput(citiesContainer); // Initial city input field
-
-
-      // --- INPUT MODE LOGIC (URL vs CITY/DEFAULT) ---
-
-      function updateInputMode() {
-          const urlValue = (projectURLInput.value || '').trim();
-          const cityInputs = citiesContainer.querySelectorAll('.city-name');
-          // Cek apakah ada kota yang terisi (trim() !== '')
-          const hasCityValue = Array.from(cityInputs).some(input => (input.value || '').trim() !== '');
-          const hideElements = document.querySelectorAll('.hide-on-url');
-          
-          if (urlValue) {
-              // MODE URL: URL terisi. Sembunyikan City dan Interviewer.
-              hideElements.forEach(el => el.classList.add('hidden'));
-              saveBtn.textContent = 'Save Project (URL Only)';
-              
-              // Clear City inputs and Interviewers when hidden to avoid accidental save
-              citiesContainer.innerHTML = ''; addCityInput(citiesContainer);
-              interviewersContainer.innerHTML=''; addRow();
-              
-          } else {
-              // MODE CITY/DEFAULT: URL kosong. Tampilkan City dan Interviewer.
-              hideElements.forEach(el => el.classList.remove('hidden'));
-              
-              if (hasCityValue) {
-                  saveBtn.textContent = 'Save Project (City)';
-              } else {
-                  saveBtn.textContent = 'Save Link';
-              }
-          }
-      }
-
-      // Add event listeners to control visibility
-      projectURLInput.addEventListener('input', updateInputMode);
-
-
-      // --- INTERVIEWER LOGIC ---
-
-      // Function to add a single interviewer link input
       const addLinkInput = (container, link = '') => {
         const input = document.createElement('input');
         input.className = 'iv-link';
@@ -392,13 +365,12 @@
         return input;
       };
 
-      // Function to add an interviewer section (name + links)
-      const addRow=(name='', links=[''])=>{
+      const addInterviewerRow = (container, name = '', links = ['']) => {
         const ivID = genId(); 
 
         const div=document.createElement('div');
         div.className='iv-section'; 
-        div.style.cssText = 'border: 1px dashed rgba(76, 201, 240, .2); padding: 12px; border-radius: 10px; margin-bottom: 16px;';
+        div.style.cssText = 'border: 1px dashed rgba(95,168,211,.6); padding: 12px; border-radius: 10px; margin-top: 10px;';
 
         div.innerHTML=`
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
@@ -417,10 +389,100 @@
 
         div.querySelector('.remove').addEventListener('click',()=>div.remove());
 
-        interviewersContainer.appendChild(div);
+        container.appendChild(div);
       };
-      document.getElementById('addInterviewer').addEventListener('click',()=>addRow());
-      addRow(); // initial interviewer input
+
+      // --- CITY INPUT LOGIC (MAIN) ---
+
+      // Function to add a single city input field with nested interviewers
+      const addCityInput = (container, city = '', initialInterviewers = [{name: '', links: ['']}]) => {
+        const cityWrapper = document.createElement('div');
+        cityWrapper.className = 'city-wrapper';
+        
+        cityWrapper.innerHTML = `
+            <div class="city-header">
+                <input class="city-name" type="text" placeholder="City Name (Wajib)" value="${esc(city)}" />
+                <button type="button" class="remove remove-city" title="Remove city" style="width: 34px; height: 34px; margin-left: 12px; border-radius: 8px;">✕</button>
+            </div>
+            <p class="subtitle" style="text-align:left; margin-top: -10px; font-size: 14px; opacity: 0.8;">Interviewer untuk kota ini:</p>
+            <div class="city-interviewers"></div>
+            <button type="button" class="add-mini add-interviewer-city" style="font-size: 14px; padding: 6px 10px; margin-top: 8px; width: 100%;">+ Add Interviewer</button>
+        `;
+
+        const cityNameInput = cityWrapper.querySelector('.city-name');
+        const interviewersContainer = cityWrapper.querySelector('.city-interviewers');
+        const removeCityBtn = cityWrapper.querySelector('.remove-city');
+        const addInterviewerBtn = cityWrapper.querySelector('.add-interviewer-city');
+
+
+        // Initial Interviewers for this city
+        // If initialInterviewers has valid data, use it. Otherwise, add one empty row.
+        const hasValidInitialIv = initialInterviewers && initialInterviewers.length > 0 && (initialInterviewers[0].name || initialInterviewers[0].links[0]);
+        const ivData = hasValidInitialIv ? initialInterviewers : [{name: '', links: ['']}];
+        ivData.forEach(iv => addInterviewerRow(interviewersContainer, iv.name, iv.links));
+
+        // Event Listeners
+        cityNameInput.addEventListener('input', updateInputMode);
+
+        addInterviewerBtn.addEventListener('click', () => {
+            addInterviewerRow(interviewersContainer);
+        });
+        
+        removeCityBtn.addEventListener('click', () => {
+            // Logic: remove if there's more than one city input, or if it's the only one and it's currently empty
+            const cityWrappers = container.querySelectorAll('.city-wrapper');
+            if (cityWrappers.length > 1 || !cityNameInput.value.trim()) {
+                cityWrapper.remove();
+                updateInputMode();
+            } else {
+                alert('Tidak bisa menghapus satu-satunya kolom kota yang terisi.');
+            }
+        });
+
+        container.appendChild(cityWrapper);
+        return cityWrapper;
+      };
+
+      // Add City Button Handler
+      addCityBtn.addEventListener('click', () => {
+          addCityInput(citiesContainer);
+      });
+      addCityInput(citiesContainer); // Initial city input field
+
+      // --- INPUT MODE LOGIC (URL vs CITY/DEFAULT) ---
+
+      function updateInputMode() {
+          const urlValue = (projectURLInput.value || '').trim();
+          const cityInputs = citiesContainer.querySelectorAll('.city-name');
+          // Cek apakah ada kota yang terisi (trim() !== '')
+          const hasCityValue = Array.from(cityInputs).some(input => (input.value || '').trim() !== '');
+          const hideElements = document.querySelectorAll('.hide-on-url');
+          
+          if (urlValue) {
+              // MODE URL: URL terisi. Sembunyikan Cities.
+              hideElements.forEach(el => el.classList.add('hidden'));
+              saveBtn.textContent = 'Save Project (URL Only)';
+              
+              // Clear City inputs and Interviewers when hidden to avoid accidental save
+              citiesContainer.innerHTML = ''; addCityInput(citiesContainer);
+              
+          } else {
+              // MODE CITY/DEFAULT: URL kosong. Tampilkan Cities.
+              hideElements.forEach(el => el.classList.remove('hidden'));
+              
+              if (hasCityValue) {
+                  saveBtn.textContent = 'Save Project (City)';
+              } else {
+                  saveBtn.textContent = 'Save Link (No City/Interviewer)';
+              }
+          }
+      }
+
+      // Add event listeners to control visibility
+      projectURLInput.addEventListener('input', updateInputMode);
+
+      // Run once on load to set initial state
+      updateInputMode();
 
 
       // --- GENERAL ACTIONS ---
@@ -441,7 +503,7 @@
 
         if(!name){ alert('Project Name wajib diisi.'); return; }
         
-        const projectData = { id:genId(), name, cities: [], url: '', interviewers: [] };
+        const projectData = { id:genId(), name, cities: [], url: '' };
 
         if (url) {
             // MODE URL: URL terisi. Simpan Name dan URL. Abaikan sisanya.
@@ -451,52 +513,80 @@
             projectData.url = url;
             
         } else {
-            // MODE CITY/DEFAULT: URL kosong. Simpan Cities dan Interviewers.
+            // MODE CITY/DEFAULT: URL kosong. Simpan Cities & Interviewers.
 
-            // 1. COLLECT CITIES
+            // 1. COLLECT AND VALIDATE CITIES & INTERVIEWERS
             const collectedCities = [];
-            document.querySelectorAll('#cities .city-name').forEach(input => {
-                const city = (input.value || '').trim();
-                if (city) collectedCities.push(city);
-            });
-            
-            // 2. COLLECT AND VALIDATE INTERVIEWERS
-            const iv=[];
             let valid = true;
-            document.querySelectorAll('#interviewers .iv-section').forEach(section=>{
-                const n=(section.querySelector('.iv-name').value||'').trim();
-                const links = [];
+
+            document.querySelectorAll('#cities .city-wrapper').forEach(cityWrapper => {
+                const cityName = (cityWrapper.querySelector('.city-name').value || '').trim();
+                const cityInterviewers = [];
+                const ivSections = cityWrapper.querySelectorAll('.iv-section');
+
+                // Skip if the wrapper is essentially empty (default empty row)
+                if (!cityName && ivSections.length === 1 && ivSections[0].querySelector('.iv-name').value.trim() === '') {
+                    return;
+                }
+
+                // VALIDATION: City Name must be filled if interviewers exist
+                if (!cityName) {
+                    alert('City Name wajib diisi jika ada Interviewer di dalamnya.');
+                    valid = false;
+                    return;
+                }
                 
-                section.querySelectorAll('.iv-link').forEach(input => {
-                    let l = (input.value || '').trim();
-                    if(l){
-                        if(!/^https?:\/\//i.test(l)) l='https://'+l;
-                        try{ new URL(l); links.push(l); }
-                        catch{ alert(`Salah satu Interviewer Link (${l}) tidak valid.`); valid = false; }
-                    }
+                // Iterate through interviewers nested in this city
+                ivSections.forEach(ivSection => {
+                    const n = (ivSection.querySelector('.iv-name').value || '').trim();
+                    const links = [];
+
+                    // Collect links for this interviewer
+                    ivSection.querySelectorAll('.iv-link').forEach(input => {
+                        let l = (input.value || '').trim();
+                        if (l) {
+                            if (!/^https?:\/\//i.test(l)) l = 'https://' + l;
+                            try { new URL(l); links.push(l); }
+                            catch { alert(`Salah satu Interviewer Link (${l}) tidak valid di kota ${cityName}.`); valid = false; }
+                        }
+                    });
+
+                    if (!valid) return;
+                    
+                    // Skip entirely empty interviewer rows
+                    if (!n && links.length === 0) return;
+
+                    // VALIDATION: Interviewer Name is mandatory
+                    if (!n) { alert(`Interviewer Name wajib diisi di kota ${cityName}.`); valid = false; return; }
+                    
+                    // VALIDATION: At least one valid link is mandatory
+                    if (links.length === 0) { alert(`Interviewer "${n}" wajib memiliki minimal satu Link yang valid di kota ${cityName}.`); valid = false; return; }
+
+                    cityInterviewers.push({ name: n, links: links });
                 });
 
-                if(!valid) return;
-
-                // VALIDATION: Interviewer Name is mandatory
-                if(!n){ alert('Interviewer Name wajib diisi.'); valid = false; return; }
+                if (!valid) return;
                 
-                // VALIDATION: At least one valid link is mandatory
-                if(links.length === 0){ alert(`Interviewer "${n}" wajib memiliki minimal satu Link yang valid.`); valid = false; return; }
+                // FINAL VALIDATION: City must have at least one interviewer 
+                if (cityInterviewers.length === 0) {
+                    alert(`City "${cityName}" wajib memiliki minimal satu Interviewer.`);
+                    valid = false;
+                    return;
+                }
 
-                iv.push({name:n, links:links});
+                // If validation passed, add the city data
+                collectedCities.push({ cityName, interviewers: cityInterviewers });
             });
 
             if(!valid) return;
 
             // 3. APPLY DATA
-            projectData.interviewers = iv;
-            projectData.cities = collectedCities;
             projectData.url = '';
+            projectData.cities = collectedCities;
 
-            // FINAL VALIDATION: Must save either city or interviewers
-            if (collectedCities.length === 0 && iv.length === 0) {
-                 alert('Anda harus mengisi setidaknya satu City atau satu Interviewer jika kolom URL Project kosong.');
+            // FINAL VALIDATION: Must save either URL or cities
+            if (collectedCities.length === 0) {
+                 alert('Anda harus mengisi Project URL atau setidaknya satu City dengan Interviewer.');
                  return;
             }
         }
@@ -510,7 +600,6 @@
 
         // Reinitialize inputs
         citiesContainer.innerHTML=''; addCityInput(citiesContainer);
-        interviewersContainer.innerHTML=''; addRow();
         updateInputMode(); // Reset input visibility
 
         renderProjects(document.getElementById('listInput'), { selectable:true });
@@ -533,6 +622,86 @@
         renderProjects(document.getElementById('listInput'), { selectable:true });
         alert('Selected projects deleted.');
       }
+    }
+    
+    // ===================================
+    // NEW: DETAIL PAGE RENDERER
+    // ===================================
+
+    function renderDetail(projectId) {
+        const item = findById(projectId);
+        const app = document.getElementById('app');
+
+        if (!item) {
+            app.innerHTML = `
+                <div class="toolbar">
+                    <button class="btn" onclick="location.hash='#/list';">← Back to List</button>
+                </div>
+                <section class="frame section">
+                    <h2 class="title" style="font-size:28px;">Project Not Found</h2>
+                    <p class="subtitle">ID Project tidak valid atau sudah dihapus.</p>
+                </section>
+            `;
+            return;
+        }
+
+        let detailContent = '';
+
+        if (item.url) {
+            detailContent += `
+                <p class="subtitle" style="margin-top:0;">Main URL:</p>
+                <div class="detail-container">
+                    <a href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" class="link-btn" style="width: 100%; text-align: center;">Open Project Link</a>
+                </div>
+            `;
+        }
+
+        if (item.cities && item.cities.length > 0) {
+            item.cities.forEach(cityData => {
+                const cityName = esc(cityData.cityName || 'Unknown City');
+                const interviewers = cityData.interviewers || [];
+
+                detailContent += `
+                    <p class="subtitle" style="margin-top: 24px; font-size: 18px;">Interviewer di Kota: <b>${cityName}</b></p>
+                    <div class="detail-container">
+                `;
+                
+                interviewers.forEach(iv => {
+                    const ivName = esc(iv.name || 'Interviewer');
+                    const links = iv.links || [];
+
+                    let linkButtons = links.map((link, index) => {
+                        const linkText = links.length > 1 ? `Link ${index + 1}` : 'Link Project';
+                        return `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="link-btn">${linkText}</a>`;
+                    }).join('');
+
+                    detailContent += `
+                        <div class="detail-interviewer">
+                            <strong>${ivName}</strong>
+                            <div class="link-btn-container">
+                                ${linkButtons}
+                            </div>
+                        </div>
+                    `;
+                });
+                detailContent += `</div>`;
+            });
+        }
+        
+        if (!item.url && (!item.cities || item.cities.length === 0)) {
+            detailContent += `<p class="subtitle">Tidak ada URL utama, Kota, maupun Interviewer yang tercatat.</p>`;
+        }
+
+
+        app.innerHTML = `
+            <div class="toolbar">
+                <button class="btn" onclick="location.hash='#/list';">← Back to List</button>
+            </div>
+            <section class="frame section">
+                <h2 class="title" style="font-size:32px; margin-bottom: 24px;">${esc(item.name)}</h2>
+                ${detailContent}
+            </section>
+        `;
     }
 
     /* ============== List Page (read-only) ============== */
@@ -568,41 +737,62 @@
         const title=`<div class="card-title">${esc(item.name)}</div>`;
         
         let metaHtml = '';
+        const allTags = [];
+        let cityCount = 0;
+        let totalInterviewers = 0;
+
         if (item.url) {
             metaHtml += `<div class="card-meta">URL: ${esc(item.url)}</div>`;
         }
+
         if (item.cities && item.cities.length > 0) {
-            // Display all cities separated by comma
-            metaHtml += `<div class="card-meta">CITY: <b>${item.cities.map(c => esc(c)).join(', ')}</b></div>`;
+            item.cities.forEach(cityData => {
+                const cityName = cityData.cityName || 'Unknown City';
+                const interviewers = cityData.interviewers || [];
+                cityCount++;
+                totalInterviewers += interviewers.length;
+
+                // Display City Name (in meta section)
+                metaHtml += `<div class="card-meta">CITY: <b>${esc(cityName)}</b> (${interviewers.length} Interviewer)</div>`;
+
+                // Collect interviewer tags for this city
+                interviewers.forEach(iv => {
+                    const nm = esc(iv.name || 'Interviewer');
+                    const links = iv.links || [];
+
+                    const firstLink = links[0];
+                    const allLinks = links.length > 1 ? ` (${links.length} links)` : '';
+                    
+                    const cityAbbr = esc(cityName.substring(0, 5)).toUpperCase();
+                    
+                    if (firstLink) {
+                        allTags.push(
+                            `<span class="tag" title="${esc(cityName)} - Links:\n${links.map(l => esc(l)).join('\n')}">
+                                <a href="${esc(firstLink)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${nm} (${cityAbbr})${allLinks}</a>
+                            </span>`
+                        );
+                    } else {
+                        allTags.push(
+                             `<span class="tag">${nm} (${cityAbbr})${allLinks}</span>`
+                        );
+                    }
+                });
+            });
         }
-        if (!item.url && (!item.cities || item.cities.length === 0)) {
+        
+        if (!item.url && cityCount === 0) {
             metaHtml += `<div class="card-meta">No URL or City</div>`;
         }
         
-        const tags = (item.interviewers || []).map(iv => {
-          const nm = esc(iv.name || 'Interviewer');
-          const links = iv.links || [];
+        const tagsHtml = allTags.join('');
 
-          if (links.length === 0) {
-            return `<span class="tag">${nm}</span>`;
-          }
 
-          const firstLink = links[0];
-          const allLinks = links.length > 1 ? ` (${links.length} links)` : '';
-          
-          if (firstLink) {
-            // Use title for tooltip to show all links
-            return `<span class="tag" title="Links:\n${links.map(l => esc(l)).join('\n')}"><a href="${esc(firstLink)}" target="_blank" rel="noopener">${nm}${allLinks}</a></span>`;
-          } else {
-             return `<span class="tag">${nm}${allLinks}</span>`;
-          }
-          
-        }).join('');
-
-        const elm = item.url ? document.createElement('a') : document.createElement('div');
-        if(item.url){ elm.href=item.url; elm.target='_blank'; elm.rel='noopener noreferrer'; elm.className='card-link'; }
-        else{ elm.className='card'; }
-        elm.innerHTML=`${title}${metaHtml}${tags}`;
+        // MODIFIED: Use .card-clickable and add onclick handler for detail view
+        const elm = document.createElement('div');
+        elm.className = 'card-clickable';
+        elm.onclick = () => location.hash = `#/detail/${item.id}`; 
+        
+        elm.innerHTML=`${title}${metaHtml}${tagsHtml}`;
 
         if(selectable){
           elm.classList.add('pad-left');
@@ -610,13 +800,18 @@
           cb.type='checkbox'; cb.className='select-box';
           cb.checked = selectedIds.has(item.id);
           cb.addEventListener('change', e=>{
+            // Prevent navigating to detail when clicking checkbox
+            e.stopPropagation(); 
             if(e.target.checked) selectedIds.add(item.id); else selectedIds.delete(item.id);
           });
+          // Ensure clicking the card wrapper doesn't open the link if there's a checkbox
+          elm.onclick = (e) => {
+              if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'A' && e.target.parentElement.tagName !== 'A') {
+                  location.hash = `#/detail/${item.id}`; 
+              }
+          };
+
           elm.appendChild(cb);
-          if(item.url){
-            cb.addEventListener('click', ev=>ev.stopPropagation());
-            cb.addEventListener('mousedown', ev=>ev.stopPropagation());
-          }
         }
 
         grid.appendChild(elm);
