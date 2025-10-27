@@ -1,105 +1,105 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quantitative Project</title>
-  <style>
-    :root{
-      --hitam:#000; --putih:#fff;
-      --biru-tipis:#5fa8d3; --biru-cerah:#4cc9f0;
-      --merah:#e63946;
-      --border:2px; --radius:14px;
-      --shadow:0 10px 30px rgba(95,168,211,.25);
-      --field-h:46px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#000;color:#fff;display:flex;min-height:100vh}
-    .app{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;padding:28px 18px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quantitative Project</title>
+  <style>
+    :root{
+      --hitam:#000; --putih:#fff;
+      --biru-tipis:#5fa8d3; --biru-cerah:#4cc9f0;
+      --merah:#e63946;
+      --border:2px; --radius:14px;
+      --shadow:0 10px 30px rgba(95,168,211,.25);
+      --field-h:46px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#000;color:#fff;display:flex;min-height:100vh}
+    .app{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;padding:28px 18px}
 
-    /* Frames/headers */
-    .frame{width:100%;max-width:1100px;border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);padding:28px;background:rgba(255,255,255,0.02);box-shadow:var(--shadow)}
-    .title{font-weight:800;letter-spacing:.5px;text-align:center;line-height:1.05}
-    .subtitle{opacity:.9;text-align:center;margin-top:14px}
-    .section{width:100%;max-width:900px;display:flex;flex-direction:column;gap:18px}
-    .label{font-size:18px;letter-spacing:.6px;opacity:.9;text-align:center;margin-top:6px}
+    /* Frames/headers */
+    .frame{width:100%;max-width:1100px;border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);padding:28px;background:rgba(255,255,255,0.02);box-shadow:var(--shadow)}
+    .title{font-weight:800;letter-spacing:.5px;text-align:center;line-height:1.05}
+    .subtitle{opacity:.9;text-align:center;margin-top:14px}
+    .section{width:100%;max-width:900px;display:flex;flex-direction:column;gap:18px}
+    .label{font-size:18px;letter-spacing:.6px;opacity:.9;text-align:center;margin-top:6px}
 
-    /* Home */
-    .home-header{padding:40px 32px}
-    .home-title{font-size:clamp(36px,7vw,72px)}
-    .home-subtitle{font-size:clamp(18px,3vw,28px);font-weight:500}
-    .home-actions{width:100%;max-width:1100px;display:grid;gap:34px;grid-template-columns:repeat(2,minmax(260px,1fr))}
-    @media (max-width:740px){.home-actions{grid-template-columns:1fr}}
-    .big-btn{
-      display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;
-      border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);
-      padding:38px 18px;font-weight:700;font-size:clamp(22px,4.4vw,42px);
-      background:rgba(255,255,255,0.02);transition:.2s;text-align:center;
-    }
-    .big-btn:hover,.big-btn:focus-visible{transform:translateY(-2px);background:rgba(76,201,240,0.08);box-shadow:0 12px 30px rgba(76,201,240,.25);border-color:var(--biru-cerah);outline:none}
+    /* Home */
+    .home-header{padding:40px 32px}
+    .home-title{font-size:clamp(36px,7vw,72px)}
+    .home-subtitle{font-size:clamp(18px,3vw,28px);font-weight:500}
+    .home-actions{width:100%;max-width:1100px;display:grid;gap:34px;grid-template-columns:repeat(2,minmax(260px,1fr))}
+    @media (max-width:740px){.home-actions{grid-template-columns:1fr}}
+    .big-btn{
+      display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;
+      border:var(--border) solid rgba(95,168,211,.75);border-radius:var(--radius);
+      padding:38px 18px;font-weight:700;font-size:clamp(22px,4.4vw,42px);
+      background:rgba(255,255,255,0.02);transition:.2s;text-align:center;
+    }
+    .big-btn:hover,.big-btn:focus-visible{transform:translateY(-2px);background:rgba(76,201,240,0.08);box-shadow:0 12px 30px rgba(76,201,240,.25);border-color:var(--biru-cerah);outline:none}
 
-    /* Toolbar / buttons */
-    .toolbar{width:100%;max-width:1100px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-    .btn{
-      border:var(--border) solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;
-      padding:10px 14px;cursor:pointer;font-weight:700;transition:.2s
-    }
-    .btn:hover{border-color:var(--biru-cerah)}
-    .btn-primary{background:var(--biru-tipis);border:none;color:#001014}
-    .btn-primary:hover{filter:brightness(1.08)}
+    /* Toolbar / buttons */
+    .toolbar{width:100%;max-width:1100px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+    .btn{
+      border:var(--border) solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;
+      padding:10px 14px;cursor:pointer;font-weight:700;transition:.2s
+    }
+    .btn:hover{border-color:var(--biru-cerah)}
+    .btn-primary{background:var(--biru-tipis);border:none;color:#001014}
+    .btn-primary:hover{filter:brightness(1.08)}
 
-    /* Form */
-    .form{display:grid;gap:16px;margin-top:6px}
-    .row{display:grid;gap:12px}
-    .form input{
-      background:transparent;color:#fff;border:none;border-bottom:2px dotted #fff;
-      padding:0 10px;height:var(--field-h);font-size:18px;text-align:center
-    }
-    .form input:focus{outline:none;border-bottom:2px solid var(--biru-cerah)}
+    /* Form */
+    .form{display:grid;gap:16px;margin-top:6px}
+    .row{display:grid;gap:12px}
+    .form input{
+      background:transparent;color:#fff;border:none;border-bottom:2px dotted #fff;
+      padding:0 10px;height:var(--field-h);font-size:18px;text-align:center
+    }
+    .form input:focus{outline:none;border-bottom:2px solid var(--biru-cerah)}
 
-    /* Interviewers (tidy) */
-    #interviewers{display:flex;flex-direction:column;gap:10px}
-    .iv-row{display:grid;gap:12px;align-items:center;grid-template-columns:1fr 1fr 44px}
-    .iv-row .iv-name,.iv-row .iv-link{text-align:left;padding:0 12px}
-    .iv-row .remove{width:44px;height:var(--field-h);display:flex;align-items:center;justify-content:center;border:1px solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;cursor:pointer}
-    .iv-row .remove:hover{border-color:var(--biru-cerah)}
-    .add-mini{justify-self:center;border:1px dashed rgba(95,168,211,.6);border-radius:10px;background:rgba(255,255,255,.03);color:#cde8f7;padding:8px 12px;cursor:pointer}
-    .add-mini:hover{border-color:var(--biru-cerah);color:#fff}
-    @media (max-width:760px){.iv-row{grid-template-columns:1fr}.iv-row .remove{justify-self:end}}
+    /* Interviewers (tidy) */
+    #interviewers{display:flex;flex-direction:column;gap:10px}
+    .iv-row{display:grid;gap:12px;align-items:center;grid-template-columns:1fr 1fr 44px}
+    .iv-row .iv-name,.iv-row .iv-link{text-align:left;padding:0 12px}
+    .iv-row .remove{width:44px;height:var(--field-h);display:flex;align-items:center;justify-content:center;border:1px solid rgba(95,168,211,.75);border-radius:10px;background:transparent;color:#fff;cursor:pointer}
+    .iv-row .remove:hover{border-color:var(--biru-cerah)}
+    .add-mini{justify-self:center;border:1px dashed rgba(95,168,211,.6);border-radius:10px;background:rgba(255,255,255,.03);color:#cde8f7;padding:8px 12px;cursor:pointer}
+    .add-mini:hover{border-color:var(--biru-cerah);color:#fff}
+    @media (max-width:760px){.iv-row{grid-template-columns:1fr}.iv-row .remove{justify-self:end}}
 
-    /* Cards / link list */
-    .links{display:grid;gap:18px;margin-top:10px;grid-template-columns:1fr 1fr}
-    @media (max-width:900px){.links{grid-template-columns:1fr}}
-    .card, .card-link{
-      position:relative;display:block;width:100%;text-align:left;background:rgba(255,255,255,.03);
-      border:1px solid rgba(95,168,211,.6);border-radius:12px;padding:16px 18px;color:#fff;text-decoration:none;transition:.15s ease
-    }
-    .card:hover,.card-link:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah)}
-    .card-title{font-weight:800;font-size:18px;margin-bottom:6px}
-    .card-meta{font-size:14px;opacity:.9;margin-bottom:6px}
-    .tag{display:inline-block;background:rgba(95,168,211,.15);border:1px solid rgba(95,168,211,.5);color:#def5ff;border-radius:8px;padding:2px 8px;margin:2px 4px 0 0;font-size:12px}
-    .tag a{color:#def5ff}
+    /* Cards / link list */
+    .links{display:grid;gap:18px;margin-top:10px;grid-template-columns:1fr 1fr}
+    @media (max-width:900px){.links{grid-template-columns:1fr}}
+    .card, .card-link{
+      position:relative;display:block;width:100%;text-align:left;background:rgba(255,255,255,.03);
+      border:1px solid rgba(95,168,211,.6);border-radius:12px;padding:16px 18px;color:#fff;text-decoration:none;transition:.15s ease
+    }
+    .card:hover,.card-link:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(76,201,240,.18);border-color:var(--biru-cerah)}
+    .card-title{font-weight:800;font-size:18px;margin-bottom:6px}
+    .card-meta{font-size:14px;opacity:.9;margin-bottom:6px}
+    .tag{display:inline-block;background:rgba(95,168,211,.15);border:1px solid rgba(95,168,211,.5);color:#def5ff;border-radius:8px;padding:2px 8px;margin:2px 4px 0 0;font-size:12px}
+    .tag a{color:#def5ff}
 
-    /* Selection mode checkbox */
-    .select-box{
-      position:absolute;left:10px;top:10px;transform:scale(1.15);
-      accent-color:#79c9ff; /* modern browsers */
-    }
-    .card.pad-left{padding-left:48px} .card-link.pad-left{padding-left:48px}
+    /* Selection mode checkbox */
+    .select-box{
+      position:absolute;left:10px;top:10px;transform:scale(1.15);
+      accent-color:#79c9ff; /* modern browsers */
+    }
+    .card.pad-left{padding-left:48px} .card-link.pad-left{padding-left:48px}
 
-    /* Floating delete selected */
-    .delete-fab{
-      position:fixed;right:20px;bottom:20px;z-index:10;background:var(--merah);color:#fff;border:none;border-radius:12px;
-      padding:12px 16px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none
-    }
-    .delete-fab.show{display:block}
-  </style>
+    /* Floating delete selected */
+    .delete-fab{
+      position:fixed;right:20px;bottom:20px;z-index:10;background:var(--merah);color:#fff;border:none;border-radius:12px;
+      padding:12px 16px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none
+    }
+    .delete-fab.show{display:block}
+  </style>
 </head>
 <body>
-  <main id="app" class="app"></main>
+  <main id="app" class="app"></main>
 
-  <script>
+  <script>
     /* ============== Router ============== */
     const routes = { home: renderHome, input: routeInput, list: renderList };
     function navigate(hash){ const route=(hash||location.hash||'#/').replace('#/','')||'home'; (routes[route]||routes.home)(); }
@@ -112,7 +112,8 @@
     const clearAuth=()=>sessionStorage.removeItem(AUTH_KEY);
 
     /* ============== Storage ============== */
-    const LS_KEY='linksV2'; // {id,name,url,interviewers:[{name,link}]}
+    // CHANGED: LS_KEY updated to V3 to reflect new data structure {id,name,url,interviewers:[{name,links:[url1,url2,...]}]}
+    const LS_KEY='linksV3';
     const readAll=()=>{ try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch{return[]} };
     const writeAll=arr=>localStorage.setItem(LS_KEY, JSON.stringify(arr));
     const upsert=p=>{ const arr=readAll(); arr.push(p); writeAll(arr); };
@@ -162,8 +163,8 @@
     }
 
     /* ============== Input Page ============== */
-    let selectionMode=false;           // on/off
-    const selectedIds=new Set();       // ids selected
+    let selectionMode=false;            // on/off
+    const selectedIds=new Set();        // ids selected
 
     function renderInputPage(){
       migrateIds(); // ensure old data has ids
@@ -186,7 +187,7 @@
 
             <div class="row">
               <div id="interviewers"></div>
-              <button type="button" id="addInterviewer" class="add-mini">+ Add More Name + Link</button>
+              <button type="button" id="addInterviewer" class="add-mini">+ Add New Interviewer</button>
             </div>
 
             <button id="saveBtn" class="btn btn-primary">Save Link</button>
@@ -200,15 +201,68 @@
 
       // interviewer rows
       const interviewers=document.getElementById('interviewers');
-      const addRow=(name='',link='')=>{
+
+      // NEW: Function to add a single interviewer link input
+      const addLinkInput = (container, link = '') => {
+        const input = document.createElement('input');
+        input.className = 'iv-link';
+        input.type = 'url';
+        input.placeholder = 'Interviewer Link (optional, https://...)';
+        input.value = esc(link);
+
+        const removeLinkBtn = document.createElement('button');
+        removeLinkBtn.type = 'button';
+        removeLinkBtn.className = 'remove remove-link'; // NEW class for link removal
+        removeLinkBtn.title = 'Remove link';
+        removeLinkBtn.textContent = '–';
+        removeLinkBtn.style.cssText = 'width: 34px; height: 34px; border-radius: 8px; font-size: 20px; line-height: 0; margin-top: 6px;';
+
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'display: flex; gap: 8px; align-items: center;';
+        wrapper.appendChild(input);
+        wrapper.appendChild(removeLinkBtn);
+
+        removeLinkBtn.addEventListener('click', () => {
+            // Must keep at least one link field
+            if (container.querySelectorAll('.iv-link').length > 1) {
+                wrapper.remove();
+            } else {
+                alert('An interviewer must have at least one link field.');
+            }
+        });
+
+        container.appendChild(wrapper);
+        return input;
+      };
+
+      // MODIFIED: Function to add an interviewer section (name + links)
+      const addRow=(name='', links=[''])=>{
+        const ivID = genId(); // Unique ID for this interviewer section
+
         const div=document.createElement('div');
-        div.className='iv-row';
+        div.className='iv-section'; // NEW class for interviewer section
+        div.style.cssText = 'border: 1px dashed rgba(76, 201, 240, .2); padding: 12px; border-radius: 10px; margin-bottom: 16px;';
+
         div.innerHTML=`
-          <input class="iv-name" type="text" placeholder="Interviewer Name (optional)" value="${esc(name)}"/>
-          <input class="iv-link" type="url" placeholder="Interviewer Link (optional, https://...)" value="${esc(link)}"/>
-          <button type="button" class="remove" title="Remove interviewer">✕</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <input class="iv-name" type="text" placeholder="Interviewer Name (optional)" value="${esc(name)}" style="flex:1; height: 40px; border-bottom: 2px solid rgba(255, 255, 255, 0.4);"/>
+            <button type="button" class="remove" title="Remove interviewer" style="width: 34px; height: 34px; margin-left: 12px; border-radius: 8px;">✕</button>
+          </div>
+          <div id="links-container-${ivID}" class="links-container"></div>
+          <button type="button" class="add-mini add-link-mini" style="margin-top: 8px; font-size: 14px; padding: 6px 10px;">+ Add Link</button>
         `;
+
+        const linksContainer = div.querySelector(`#links-container-${ivID}`);
+
+        // Add initial links
+        (links.length > 0 ? links : ['']).forEach(link => addLinkInput(linksContainer, link));
+
+        // Add event listener for adding more links
+        div.querySelector('.add-link-mini').addEventListener('click', () => addLinkInput(linksContainer));
+
+        // Event listener for removing the entire interviewer section
         div.querySelector('.remove').addEventListener('click',()=>div.remove());
+
         interviewers.appendChild(div);
       };
       document.getElementById('addInterviewer').addEventListener('click',()=>addRow());
@@ -231,16 +285,32 @@
         if(!name){ alert('Project Name wajib diisi.'); return; }
         if(url && !/^https?:\/\//i.test(url)) url='https://'+url;
         if(url){ try{ new URL(url); }catch{ alert('URL project tidak valid.'); return; } }
+
         const iv=[];
-        document.querySelectorAll('#interviewers .iv-row').forEach(r=>{
-          const n=(r.querySelector('.iv-name').value||'').trim();
-          let l=(r.querySelector('.iv-link').value||'').trim();
-          if(n||l){
-            if(l && !/^https?:\/\//i.test(l)) l='https://'+l;
-            if(l){ try{ new URL(l); }catch{ alert('Salah satu Interviewer Link tidak valid.'); return; } }
-            iv.push({name:n,link:l});
+        let valid = true;
+
+        document.querySelectorAll('#interviewers .iv-section').forEach(section=>{
+          const n=(section.querySelector('.iv-name').value||'').trim();
+          const links = [];
+          
+          section.querySelectorAll('.iv-link').forEach(input => {
+            let l = (input.value || '').trim();
+            if(l){
+              if(!/^https?:\/\//i.test(l)) l='https://'+l;
+              try{ new URL(l); links.push(l); }
+              catch{ alert(`Salah satu Interviewer Link (${l}) tidak valid.`); valid = false; }
+            }
+          });
+
+          if(!valid) return;
+
+          if(n||links.length>0){
+            iv.push({name:n, links:links});
           }
         });
+
+        if(!valid) return;
+
         upsert({ id:genId(), name, url, interviewers:iv });
         // reset form
         document.getElementById('projectName').value='';
@@ -300,9 +370,27 @@
       data.forEach(item=>{
         const title=`<div class="card-title">${esc(item.name)}</div>`;
         const meta=item.url?`<div class="card-meta">URL: ${esc(item.url)}</div>`:`<div class="card-meta">No main URL</div>`;
-        const tags=(item.interviewers||[]).map(iv=>{
-          const nm=esc(iv.name||'Interviewer'); const lk=esc(iv.link||'');
-          return iv.link?`<span class="tag"><a href="${lk}" target="_blank" rel="noopener">${nm}</a></span>`:`<span class="tag">${nm}</span>`;
+        
+        // MODIFIED: Tags now handle an array of links
+        const tags = (item.interviewers || []).map(iv => {
+          const nm = esc(iv.name || 'Interviewer');
+          const links = iv.links || [];
+
+          if (links.length === 0) {
+            return `<span class="tag">${nm}</span>`;
+          }
+
+          // Combine all links for this interviewer into a single tag
+          const firstLink = links[0];
+          const allLinks = links.length > 1 ? ` (${links.length} links)` : '';
+          
+          if (firstLink) {
+            // Using title attribute to display all links in a tooltip
+            return `<span class="tag" title="Links:\n${links.map(l => esc(l)).join('\n')}"><a href="${esc(firstLink)}" target="_blank" rel="noopener">${nm}${allLinks}</a></span>`;
+          } else {
+             return `<span class="tag">${nm}${allLinks}</span>`;
+          }
+          
         }).join('');
 
         const elm = item.url ? document.createElement('a') : document.createElement('div');
@@ -334,6 +422,6 @@
 
     /* ============== Helpers ============== */
     const esc=(s='')=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
-  </script>
+</script>
 </body>
 </html>
