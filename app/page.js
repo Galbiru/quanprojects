@@ -1,1 +1,0 @@
-export default function Home(){return(<div><h1>Quantitative Project</h1><a href='/dashboard'>Enter Dashboard</a><br/><a href='/admin'>IT Mode</a></div>);}

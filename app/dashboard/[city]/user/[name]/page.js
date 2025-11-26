@@ -1,1 +1,0 @@
-export default function UserLinks({params}){return <div>User: {params.name}</div>}

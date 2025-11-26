@@ -1,1 +1,0 @@
-export default function Admin(){return(<div><h1>IT Mode</h1><p>Settings panel placeholder</p></div>);}

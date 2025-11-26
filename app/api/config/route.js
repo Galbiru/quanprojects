@@ -1,1 +1,0 @@
-import { NextResponse } from 'next/server';let data={title:'Quantitative Project',cities:[],users:{}};export async function GET(){return NextResponse.json(data);}export async function POST(req){data=await req.json();return NextResponse.json({ok:true});}

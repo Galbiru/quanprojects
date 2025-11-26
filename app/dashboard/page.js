@@ -1,1 +1,0 @@
-export default function Dashboard(){return <div><h2>Select City</h2></div>}
