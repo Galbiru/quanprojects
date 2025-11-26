@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';let data={};export async function GET(){return NextResponse.json(data);}export async function POST(req){data=await req.json();return NextResponse.json({ok:true});}

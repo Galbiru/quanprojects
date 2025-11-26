@@ -1,0 +1,1 @@
+export default function User({params}){return <div>User {params.name}</div>}
