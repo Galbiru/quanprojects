@@ -1,0 +1,1 @@
+export default function City({params}){return <div>City: {params.city}</div>}

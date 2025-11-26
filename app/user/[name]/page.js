@@ -1,0 +1,1 @@
+export default function GlobalUser({params}){return <div>User: {params.name}</div>}
